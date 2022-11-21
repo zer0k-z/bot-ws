@@ -20,10 +20,11 @@ jobs:
         uses: rumblefrog/setup-sp@master
         with:
           version: "1.10.x"
-          version-file: ./scripting/bot-ws.sp
+          version-file: ./addons/sourcemod/scripting/bot-ws.sp
 
       - name: Compile plugins
         run: |
+          cd addons/sourcemod
           mkdir plugins
           cd scripting
           spcomp -E -w234 -O2 -v2 -i"include" -o"../plugins/bot-ws.smx" bot-ws.sp

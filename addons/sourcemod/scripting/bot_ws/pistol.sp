@@ -9,6 +9,7 @@ int botPistolIndex = 0;
 int pistolSkin = -1;
 int pistolFallbackSeed;
 int pistolSkinCount[TOTAL_PISTOLS];
+float pistolFloat = 0.000001;
 enum PistolIndices
 {
 	USP = 0,

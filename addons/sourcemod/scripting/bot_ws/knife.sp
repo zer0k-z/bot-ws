@@ -33,7 +33,7 @@ int knifeFallbackSeed;
 int knifeSkinCount[TOTAL_KNIVES];
 char knifeSkinNames[TOTAL_KNIVES][100][256];
 int knifeSkinIndices[TOTAL_KNIVES][100];
-
+float knifeFloat = 0.000001;
 
 void LoadKnives()
 {

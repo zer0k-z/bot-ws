@@ -23,7 +23,7 @@ public Plugin myinfo =
 	name = "Bot WS",
 	author = "<><><>><",
 	description = "Give a bot a skin",
-	version = "1.0",
+	version = "1.1",
 	url = "gokz.tv"
 };
 bool gB_CSGOSticker;
@@ -37,6 +37,8 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_botknife", Command_SkinMenu_Knife, "Opens the menu");
 	RegConsoleCmd("sm_botseed", Command_Seed, "Set seed");
 	RegConsoleCmd("sm_botsticker", Command_Sticker, "Set sticker");
+	RegConsoleCmd("sm_botknifefloat", Command_KnifeFloat, "Set knife float");
+	RegConsoleCmd("sm_botpistolfloat", Command_PistolFloat, "Set knife float");
 }
 
 public void OnAllPluginsLoaded()
@@ -92,6 +94,7 @@ public void GetBotThings(int client, int entity)
 
 	SetEntProp(entity, Prop_Send, "m_nFallbackPaintKit", pistolSkin);
 	SetEntProp(entity, Prop_Send, "m_nFallbackSeed", pistolFallbackSeed);
+	SetEntPropFloat(entity, Prop_Send, "m_flFallbackWear", pistolFloat);
 	SetEntProp(entity, Prop_Send, "m_iAccountID", -1);
 	SetEntPropEnt(entity, Prop_Data, "m_hOwnerEntity", client);
 	SetEntPropEnt(entity, Prop_Send, "m_hPrevOwner", -1);
@@ -155,6 +158,7 @@ public Action GiveKnife(int client, int entity)
 
 	SetEntProp(entity, Prop_Send, "m_nFallbackPaintKit", knifeSkin);
 	SetEntProp(entity, Prop_Send, "m_nFallbackSeed", knifeFallbackSeed);
+	SetEntPropFloat(entity, Prop_Send, "m_flFallbackWear", knifeFloat);
 	SetEntProp(entity, Prop_Send, "m_iAccountID", -1);
 	SetEntPropEnt(entity, Prop_Data, "m_hOwnerEntity", client);
 	SetEntPropEnt(entity, Prop_Send, "m_hPrevOwner", -1);
@@ -211,6 +215,52 @@ public Action Command_Seed(int client, int args)
 	}
 }
 
+public Action Command_PistolFloat(int client, int args)
+{
+	if(client == 0)
+	{
+		return Plugin_Handled;
+	}
+	
+	if(args != 1)
+	{
+		ReplyToCommand(client, "%s Usage: sm_botpistolfloat <float>", PREFIX);
+		return Plugin_Handled;
+	}
+	
+	else
+	{
+		char buffer[64];
+		GetCmdArg(1, buffer, 64);
+		pistolFloat = StringToFloat(buffer);
+		ReplyToCommand(client, "%s Done!", PREFIX);
+		return Plugin_Handled;
+	}
+}
+
+public Action Command_KnifeFloat(int client, int args)
+{
+	if(client == 0)
+	{
+		return Plugin_Handled;
+	}
+	
+	if(args != 1)
+	{
+		ReplyToCommand(client, "%s Usage: sm_botknifefloat <seed>", PREFIX);
+		return Plugin_Handled;
+	}
+	
+	else
+	{
+		char buffer[64];
+		GetCmdArg(1, buffer, 64);
+		knifeFloat = StringToFloat(buffer);
+		ReplyToCommand(client, "%s Done!", PREFIX);
+		return Plugin_Handled;
+	}
+}
+
 public Action Command_SkinMenu(int client, int args)
 {
 	if(client == 0)
@@ -220,7 +270,7 @@ public Action Command_SkinMenu(int client, int args)
 	
 	if(args != 0)
 	{
-		ReplyToCommand(client, "%s Usage: sm_rskin", PREFIX);
+		ReplyToCommand(client, "%s Usage: sm_botpistol", PREFIX);
 		return Plugin_Handled;
 	}
 	
@@ -368,7 +418,7 @@ public Action Command_SkinMenu_Knife(int client, int args)
 	
 	if(args != 0)
 	{
-		ReplyToCommand(client, "%s Usage: sm_rskin", PREFIX);
+		ReplyToCommand(client, "%s Usage: sm_botknife", PREFIX);
 		return Plugin_Handled;
 	}
 	

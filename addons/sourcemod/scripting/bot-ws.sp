@@ -23,7 +23,7 @@ public Plugin myinfo =
 	name = "Bot WS",
 	author = "<><><>><",
 	description = "Give a bot a skin",
-	version = "1.1",
+	version = "1.2",
 	url = "gokz.tv"
 };
 bool gB_CSGOSticker;
@@ -43,17 +43,17 @@ public void OnPluginStart()
 
 public void OnAllPluginsLoaded()
 {
-	gB_CSGOSticker = LibraryExists("csgo_weaponsticker");
+	gB_CSGOSticker = LibraryExists("csgo_weaponstickers");
 }
 
 public void OnLibraryAdded(const char[] name)
 {
-	gB_CSGOSticker = gB_CSGOSticker || StrEqual(name, "csgo_weaponsticker");
+	gB_CSGOSticker = gB_CSGOSticker || StrEqual(name, "csgo_weaponstickers");
 }
 
 public void OnLibraryRemoved(const char[] name)
 {
-	gB_CSGOSticker = gB_CSGOSticker && !StrEqual(name, "csgo_weaponsticker");
+	gB_CSGOSticker = gB_CSGOSticker && !StrEqual(name, "csgo_weaponstickers");
 }
 
 public void OnMapStart()
@@ -85,9 +85,6 @@ public void GetBotThings(int client, int entity)
 		SetEntPropEnt(entity, Prop_Data, "m_hOwnerEntity", client); 
 		EquipPlayerWeapon(client, entity);
 	}
-	
-	int m_iItemIDHigh = GetEntProp(entity, Prop_Send, "m_iItemIDHigh");
-	int m_iItemIDLow = GetEntProp(entity, Prop_Send, "m_iItemIDLow");
 		
 	SetEntProp(entity, Prop_Send, "m_iItemIDLow", 2048);
 	SetEntProp(entity, Prop_Send, "m_iItemIDHigh", 0);
@@ -99,11 +96,6 @@ public void GetBotThings(int client, int entity)
 	SetEntPropEnt(entity, Prop_Data, "m_hOwnerEntity", client);
 	SetEntPropEnt(entity, Prop_Send, "m_hPrevOwner", -1);
 
-	Handle pack;
-	CreateDataTimer(0.01, RestoreItemID, pack);
-	WritePackCell(pack, entity);
-	WritePackCell(pack, m_iItemIDHigh);
-	WritePackCell(pack, m_iItemIDLow);
 	int pistol = GetPlayerWeaponSlot(client, CS_SLOT_SECONDARY);
 	if (pistol != -1)
 	{
@@ -169,7 +161,6 @@ public Action GiveKnife(int client, int entity)
 	WritePackCell(pack, m_iItemIDHigh);
 	WritePackCell(pack, m_iItemIDLow);
 
-	FakeClientCommandEx(client, "use %s", "weapon_knife");
 	return Plugin_Continue;
 }
 
